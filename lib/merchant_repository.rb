@@ -2,13 +2,14 @@ require 'csv'
 require './lib/merchant.rb'
 
 class MerchantRepository
-  def initialize
+  def initialize(parent)
     @merchants = []
+    @parent = parent
   end
 
   def load
     CSV.foreach('./data/merchants.csv', headers: true, header_converters: :symbol) do |row|
-      @merchants << Merchant.new(row[:id], row[:name])
+      @merchants << Merchant.new(self, row[:id], row[:name])
     end
   end
 
@@ -44,6 +45,13 @@ class MerchantRepository
     end
   end
 
+  def find_all_items_by_merchant_id(merchant_id)
+    @parent.find_all_items_by_merchant_id(merchant_id)
+  end
+
+  def find_all_invoices_by_merchant_id(merchant_id)
+    @parent.find_all_invoices_by_merchant_id(merchant_id)
+  end
 end
 
 if __FILE__==$0
