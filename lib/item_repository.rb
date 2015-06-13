@@ -8,7 +8,7 @@ class ItemRepository
   end
 
   def load
-    CSV.foreach('./data/items.csv', headers: true, header_converts: :true) do |row|
+    CSV.foreach('./data/items.csv', headers: true, header_converters: :true) do |row|
       @items << Item.new(row[:id], row[:name], row[:description], row[:unit_price], row[:merchant_id])
     end
   end
